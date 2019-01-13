@@ -1,10 +1,22 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
+/**
+ * Functional requisites:
+ * 1. random access operator +
+ * 2. add to add new values to the set +
+ * 3. remove to remove values from the set
+ * 4. set constructor from iterators
+ * 5. const iterators
+ * 6. toString operator
+ * 7. filtering function
+ * 8. set concatenation
+ */
+
 #include <ostream>
 #include <algorithm>
 
-template <typename T>
+template <typename T, typename Eql>
 class set
 {
     /**
@@ -29,6 +41,8 @@ class set
     node *_head;        ///< node pointing to head of the set
     unsigned int _size; ///< size of the set
 
+    Eql _equal; ///< generic equal functor to compare T values
+
   public:
     // basic methods
 
@@ -46,7 +60,7 @@ class set
     {
         // saving head to scan other set
         node *tmp = other._head;
-        // handling new excpetion inside add
+        // handling excpetion of new operator inside add
         try
         {
             // scanning over other set
@@ -96,22 +110,21 @@ class set
     */
     const T &operator[](int n) const
     {
+        // out of bound
+        if (n >= _size)
+        {
+            throw std::runtime_error("");
+        }
+
         node *tmp = _head;
 
         // iterating until access position
-        for (int i = 0; i < n && tmp->next!= NULL; i++)
+        for (int i = 0; i < n; i++)
         {
-            // out of bound access
-            if (tmp == NULL)
-            {
-                throw std::runtime_error("");
-            }
-            /* TODO CREATING PROBLEM
-            * MOVING TO NULL */
             tmp = tmp->next;
         }
         return tmp->value;
-    }
+    } // end of random access operator
 
     /**
     * Adding element of type T to set
@@ -132,13 +145,13 @@ class set
         // general case
         node *tmp = _head;
         // iterating up to last element in set
-        while (tmp->next != NULL && tmp->value != value)
+        while (tmp->next != NULL && !_equal(tmp->value, value))
         {
             tmp = tmp->next;
         }
-        
+
         // avoiding duplicates inside set
-        if (tmp->value == value)
+        if (_equal(tmp->value, value))
         {
             delete n;
             throw std::runtime_error("");
@@ -148,15 +161,15 @@ class set
         tmp->next = n;
         // updating size
         _size++;
-    }
+    } // end of add
 
     /**
     * Getter size
     */
-    unsigned int size() const
+    unsigned int size(void) const
     {
         return _size;
-    }
+    } // end of size getter
 
     /**
     * Clear set from all values
@@ -177,16 +190,16 @@ class set
 
         _head = NULL;
         _size = 0;
-    }
-}; // end of set
+    } // end of clear
+};    // end of set
 
 /**
     * Set toString
     * @param os ostream to send values to be printed
     * @param s set to be printed
 */
-template <typename T>
-std::ostream &operator<<(std::ostream &os, const set<T> &s)
+template <typename T, typename E>
+std::ostream &operator<<(std::ostream &os, const set<T, E> &s)
 {
     /* TODO */
 }
