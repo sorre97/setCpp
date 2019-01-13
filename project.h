@@ -5,16 +5,18 @@
  * Functional requisites:
  * 1. random access operator +
  * 2. add to add new values to the set +
- * 3. remove to remove values from the set
- * 4. set constructor from iterators
- * 5. const iterators
+ * 3. remove to remove values from the set +
+ * 4. const iterators
+ * 5. set constructor from iterators
  * 6. toString operator
  * 7. filtering function
  * 8. set concatenation
  */
 
 #include <ostream>
-#include <algorithm>
+#include <algorithm> //std::swap
+#include <iterator>  // std::forward_iterator_tag
+#include <cstddef>   // std::ptrdiff_t
 
 template <typename T, typename Eql>
 class set
@@ -102,6 +104,14 @@ class set
         clear();
     } // end of distructor
 
+    /**
+    * Getter size
+    */
+    unsigned int size(void) const
+    {
+        return _size;
+    } // end of size getter
+
     // functional requisites
 
     /**
@@ -110,13 +120,14 @@ class set
     */
     const T &operator[](int n) const
     {
+
+        node *tmp = _head;
+
         // out of bound
         if (n >= _size)
         {
             throw std::runtime_error("");
         }
-
-        node *tmp = _head;
 
         // iterating until access position
         for (int i = 0; i < n; i++)
@@ -127,7 +138,7 @@ class set
     } // end of random access operator
 
     /**
-    * Adding element of type T to set
+    * Add element of type T to set
     * @param value value to be added to set
     */
     void add(const T &value)
@@ -145,6 +156,7 @@ class set
         // general case
         node *tmp = _head;
         // iterating up to last element in set
+        // in "worst" case stopping in last element
         while (tmp->next != NULL && !_equal(tmp->value, value))
         {
             tmp = tmp->next;
@@ -164,12 +176,46 @@ class set
     } // end of add
 
     /**
-    * Getter size
+    * Remove element of type T from set
+    * @param value value to be removed from the set
     */
-    unsigned int size(void) const
+    void remove(const T &value)
     {
-        return _size;
-    } // end of size getter
+        node *tmp = _head;  ///< head pointer
+        node *prev = _head; ///< previous pointer
+
+        // searchign iteratevely for element
+        while (tmp != NULL && !_equal(tmp->value, value))
+        {
+            prev = tmp;
+            tmp = tmp->next;
+        }
+
+        // element not found or empty list
+        if (tmp == NULL)
+        {
+            throw std::runtime_error("");
+        }
+
+        // element on head
+        if (tmp == _head)
+        {
+            _head = _head->next;
+            delete tmp;
+            --_size;
+            return;
+        }
+
+        // element in middle/tale
+        if (_equal(tmp->value, value))
+        {
+            prev->next = tmp->next;
+            delete tmp;
+            --_size;
+            return;
+        }
+
+    } // end of remove
 
     /**
     * Clear set from all values
@@ -191,7 +237,102 @@ class set
         _head = NULL;
         _size = 0;
     } // end of clear
-};    // end of set
+
+    // const_iterator
+    class const_iterator
+    {
+        /**
+         * iterator class definition
+         * Set class only allows const iterators
+         * Forward iterator implementation
+        */
+
+        const node *n; ///< iterator pivot
+    public:
+        typedef std::forward_iterator_tag iterator_category;
+        typedef T value_type;
+        typedef ptrdiff_t difference_type;
+        typedef const T *pointer;
+        typedef const T &reference;
+
+        const_iterator() : n(NULL) {}
+
+        const_iterator(const const_iterator &other) : n(other.n) {}
+
+        const_iterator &operator=(const const_iterator &other)
+        {
+            n = other.n;
+            return *this;
+        }
+
+        ~const_iterator() {}
+
+        // Ritorna il dato riferito dall'iteratore (dereferenziamento)
+        reference operator*() const
+        {
+            // retrieving T value pointed by n
+            return n->value;
+        }
+
+        // Ritorna il puntatore al dato riferito dall'iteratore
+        pointer operator->() const
+        {
+            return &(n->value);
+        }
+
+        // Operatore di iterazione post-incremento
+        const_iterator operator++(int)
+        {
+            const_iterator tmp(*this);
+            n = n->next;
+            return tmp;
+        }
+
+        // Operatore di iterazione pre-incremento
+        const_iterator &operator++()
+        {
+            n = n->next;
+            return *this;
+        }
+
+        // Uguaglianza
+        bool operator==(const const_iterator &other) const
+        {
+            return n == other.n;
+        }
+
+        // Diversita'
+        bool operator!=(const const_iterator &other) const
+        {
+            return n != other.n;
+        }
+
+    private:
+        //Dati membro
+
+        // La classe container deve essere messa friend dell'iteratore per poter
+        // usare il costruttore di inizializzazione.
+        friend class set;
+
+        // Costruttore privato di inizializzazione usato dalla classe container
+        // tipicamente nei metodi begin e end
+        const_iterator(node *nn) : n(nn) {}
+
+    }; // classe const_iterator
+
+    // Ritorna l'iteratore all'inizio della sequenza dati
+    const_iterator begin() const
+    {
+        return const_iterator(_head);
+    }
+
+    // Ritorna l'iteratore alla fine della sequenza dati
+    const_iterator end() const
+    {
+        return const_iterator(NULL);
+    }
+
+}; // end of set
 
 /**
     * Set toString
@@ -201,7 +342,30 @@ class set
 template <typename T, typename E>
 std::ostream &operator<<(std::ostream &os, const set<T, E> &s)
 {
-    /* TODO */
+    typename set<T, E>::const_iterator it, ite;
+    it = s.begin();
+    ite = s.end();
+
+    os << "[";
+    while(it != ite)
+    {
+        os << " " << *it;
+        ++it;
+    }
+    os << " ]";
+    return os;
 }
 
+/**
+    * Set concatenation
+    * @param left_s left set to be concatenated
+    * @aparam right_s right set to be concatenated
+*/
+template <typename T, typename E>
+set<T, E> operator+(const set<T, E> &left_s, const set<T, E> &right_s)
+{
+    /* TODO */
+    /* no node accessible from outside */
+    /* avoided "friendly" keyboard */
+}
 #endif

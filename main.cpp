@@ -1,6 +1,6 @@
 // generic c++ includes
 #include <iostream>
-#include <cassert>  // std::swap
+#include <cassert> // std::swap
 
 //custom includes
 #include "project.h"
@@ -15,16 +15,21 @@ void primitive_types_test(void)
      * 4. copy conctructor
      * 5. assignment operator
      * 6. clear
+     * 7. remove
+     * 8. const_iterator
+     * 9. toString
      */
-
-    typedef set<int, std::equal_to<int> > set_int;   ///< typedef to avoid template rewriting
-    bool exception = false;     ///< try catch checker
+    typedef set<int, std::equal_to<int> > set_int; ///< typedef to avoid template rewriting
+    bool exception = false;                       ///< try catch checker
 
     /** 1. default constructor + size **/
+    std::cout << "default constructor + size ";
     set_int s;
     assert(s.size() == 0);
-    
+    std::cout << " --- OK" << std::endl;
+
     /** 2. add **/
+    std::cout << "add";
     s.add(5);
     s.add(7);
     s.add(20);
@@ -34,14 +39,16 @@ void primitive_types_test(void)
     {
         s.add(7);
     }
-    catch(std::runtime_error e)
+    catch (std::runtime_error e)
     {
         exception = true;
     }
     assert(exception == true);
     assert(s.size() == 3);
-    
+    std::cout << " --- OK" << std::endl;
+
     /** 3. random access test **/
+    std::cout << "random access";
     assert(s[0] == 5);
     assert(s[1] == 7);
     assert(s[2] == 20);
@@ -49,42 +56,159 @@ void primitive_types_test(void)
     exception = false;
     try
     {
-        int n = s[3];
+        s[3];
     }
-    catch(std::runtime_error e)
+    catch (std::runtime_error e)
     {
         exception = true;
     }
     assert(exception == true);
+    std::cout << " --- OK" << std::endl;
 
     /** 4. copy constructor **/
+    std::cout << "copy constructor";
     set_int s2(s);
     assert(s2.size() == s.size());
     assert(s2[0] == s[0]);
     assert(s2[1] == s[1]);
     assert(s2[2] == s[2]);
+    std::cout << " --- OK" << std::endl;
 
     /** 5. assignment operator **/
+    std::cout << "assignment operator";
     set_int s3 = s2;
     assert(s3.size() == s2.size());
     assert(s3[0] == s2[0]);
     assert(s3[1] == s2[1]);
     assert(s3[2] == s2[2]);
+    std::cout << " --- OK" << std::endl;
 
     /** 6. clear **/
-    s3.clear();
-    assert(s3.size() == 0);
+    std::cout << "clear";
+    s2.clear();
+    assert(s2.size() == 0);
     // no more values inside
     exception = false;
     try
     {
-        int n = s3[0];
+        s2[0];
     }
-    catch(std::runtime_error e)
+    catch (std::runtime_error e)
     {
         exception = true;
     }
     assert(exception == true);
+    std::cout << " --- OK" << std::endl;
+
+    /** 7. remove **/
+    std::cout << "remove";
+    set_int s4;
+    s4.add(1);
+    s4.add(3);
+    s4.add(6);
+    s4.add(2);
+    assert(s4.size() == 4);
+
+    // tail removal
+    s4.remove(2);
+    assert(s4.size() == 3);
+    exception = false;
+    try
+    {
+        s4[3];
+    }
+    catch (std::runtime_error e)
+    {
+        exception = true;
+    }
+    assert(exception == true);
+
+    // no number found
+    exception = false;
+    try
+    {
+        s4.remove(50);
+    }
+    catch (std::runtime_error e)
+    {
+        exception = true;
+    }
+    assert(exception == true);
+
+    // middle removal
+    s4.add(2);
+    assert(s4.size() == 4);
+    s4.remove(3);
+    // shifting linked list
+    assert(s4[1] == 6);
+    exception = false;
+    try
+    {
+        s4[3];
+    }
+    catch (std::runtime_error e)
+    {
+        exception = true;
+    }
+    assert(exception == true);
+    s4.add(3);
+
+    // head removal
+    //[1 -> 6 -> 2 -> 3]
+    s4.remove(1);
+    assert(s4[0] == 6);
+
+    s4.remove(6);
+    assert(s4[0] == 2);
+
+    // empty set
+    s4.remove(2);
+    s4.remove(3);
+    exception = false;
+    try
+    {
+        s4[0];
+    }
+    catch (std::runtime_error e)
+    {
+        exception = true;
+    }
+    assert(exception == true);
+    std::cout << " --- OK" << std::endl;
+
+    /** 8. const_iterator **/
+    std::cout << "const_iterator";
+
+    set_int s5;
+    s5.add(1);
+    s5.add(3);
+    s5.add(6);
+    s5.add(2);
+
+    //begin iterator
+    set_int::const_iterator it = s5.begin();
+    //end iterator
+    set_int::const_iterator ite = s5.end();
+    // priting values inside s5 iteratively
+    std::cout << " [";
+
+    int i = 0;
+    while(it != ite)
+    {
+        assert(*it == s5[i]);
+        
+        std::cout << " " << *it;
+        ++it;
+        ++i;
+    }
+    std::cout << " ]";
+
+    std::cout << " --- OK" << std::endl;
+
+    /** 8. toString **/
+    std::cout << "toString ";
+    std::cout << s5;
+    std::cout << " --- OK" << std::endl;
 };
 
 int main(int argc, char const *argv[])
