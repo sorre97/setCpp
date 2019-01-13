@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+.DS_Store
+tmp/dbuff.h
+tmp/main2.cpp
+tmp/orderedList.hpp
+.vscode/settings.json
