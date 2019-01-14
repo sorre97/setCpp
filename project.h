@@ -6,11 +6,11 @@
  * 1. random access operator +
  * 2. add to add new values to the set +
  * 3. remove to remove values from the set +
- * 4. const iterators
- * 5. set constructor from iterators
- * 6. toString operator
+ * 4. const iterators +
+ * 5. set constructor from iterators +
+ * 6. toString operator +
  * 7. filtering function
- * 8. set concatenation
+ * 8. set concatenation +
  */
 
 #include <ostream>
@@ -238,6 +238,22 @@ class set
         _size = 0;
     } // end of clear
 
+    /**
+    * secondary constructor that takes two iterators
+    * from another set
+    * @param it begin iterator of other set
+    * @param ite end iterator of other set
+    */
+    template <typename IT>
+    set(IT it, IT ite) : _head(0), _size(0)
+    {
+        while(it != ite)
+        {
+            add(static_cast<T>(*it));
+            ++it;
+        }
+    }// end of iterator constructor
+
     // const_iterator
     class const_iterator
     {
@@ -318,7 +334,7 @@ class set
         // tipicamente nei metodi begin e end
         const_iterator(node *nn) : n(nn) {}
 
-    }; // classe const_iterator
+    }; // end of const_iterator
 
     // Ritorna l'iteratore all'inizio della sequenza dati
     const_iterator begin() const
@@ -347,14 +363,14 @@ std::ostream &operator<<(std::ostream &os, const set<T, E> &s)
     ite = s.end();
 
     os << "[";
-    while(it != ite)
+    while (it != ite)
     {
         os << " " << *it;
         ++it;
     }
     os << " ]";
     return os;
-}
+} // end of toString
 
 /**
     * Set concatenation
@@ -364,8 +380,21 @@ std::ostream &operator<<(std::ostream &os, const set<T, E> &s)
 template <typename T, typename E>
 set<T, E> operator+(const set<T, E> &left_s, const set<T, E> &right_s)
 {
-    /* TODO */
-    /* no node accessible from outside */
-    /* avoided "friendly" keyboard */
-}
+    // copy constructing left set
+    set<T, E> s(left_s);
+
+    // adding right set values to copied left set
+    typename set<T, E>::const_iterator it, ite;
+    it = right_s.begin();
+    ite = right_s.end();
+
+    // adding right set values to common set
+    while (it != ite)
+    {
+        s.add(*it);
+        ++it;
+    }
+
+    return s;
+} // end of plus operator
 #endif

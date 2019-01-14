@@ -9,18 +9,26 @@ void primitive_types_test(void)
 {
     /**
      * TESTING with integers:
-     * 1. default constructor + getter for size
-     * 2. add
-     * 3. random access operator
-     * 4. copy conctructor
-     * 5. assignment operator
-     * 6. clear
-     * 7. remove
-     * 8. const_iterator
-     * 9. toString
+     *  1. default constructor + getter for size
+     *  2. add
+     *  3. random access operator
+     *  4. copy conctructor
+     *  5. assignment operator
+     *  6. clear
+     *  7. remove
+     *  8. const_iterator
+     *  9. toString
+     * 10. concatenation
+     * 11. iterator constructor
      */
+
+    // test variables
     typedef set<int, std::equal_to<int> > set_int; ///< typedef to avoid template rewriting
     bool exception = false;                       ///< try catch checker
+    //begin iterator
+    set_int::const_iterator it;
+    //end iterator
+    set_int::const_iterator ite;
 
     /** 1. default constructor + size **/
     std::cout << "default constructor + size ";
@@ -186,17 +194,17 @@ void primitive_types_test(void)
     s5.add(2);
 
     //begin iterator
-    set_int::const_iterator it = s5.begin();
+    it = s5.begin();
     //end iterator
-    set_int::const_iterator ite = s5.end();
+    ite = s5.end();
     // priting values inside s5 iteratively
     std::cout << " [";
 
     int i = 0;
-    while(it != ite)
+    while (it != ite)
     {
         assert(*it == s5[i]);
-        
+
         std::cout << " " << *it;
         ++it;
         ++i;
@@ -205,9 +213,67 @@ void primitive_types_test(void)
 
     std::cout << " --- OK" << std::endl;
 
-    /** 8. toString **/
+    /** 9. toString **/
     std::cout << "toString ";
     std::cout << s5;
+    std::cout << " --- OK" << std::endl;
+
+    /** 10. concatenation **/
+    std::cout << "concatenation ";
+    set_int s6;
+    s6.add(20);
+    s6.add(4);
+    s6.add(10);
+    s6.add(9);
+
+    // s5 = [1 -> 3 -> 6 -> 2]
+    // s6 = [20 -> 4 -> 10 -> 9]
+    set_int s7 = s5 + s6;
+    // asserting s5 copied inside s7
+    for (int i = 0; i < s5.size(); i++)
+    {
+        assert(s7[i] == s5[i]);
+    }
+    // asserting 26 copied inside s7
+    for (int i = s5.size(); i < s6.size(); i++)
+    {
+        assert(s7[i] == s6[i]);
+    }
+
+    // adding two set with equal values
+    s6.add(2);
+    s7.clear();
+    exception = false;
+    try
+    {
+        s7 = s5 + s6;
+    }
+    catch (std::runtime_error e)
+    {
+        exception = true;
+    }
+    assert(exception == true);
+    s6.remove(2);
+
+    std::cout << " --- OK" << std::endl;
+
+    /** 11. iterator constructor **/
+    std::cout << "iterator constructor ";
+    
+    // iterators from s5 + s6
+    set_int s9 = s5 + s6;
+    it = s9.begin();
+    ite = s9.end();
+
+    // iterator constructor
+    set_int s8(it, ite);
+    
+    // asserting equal values
+    for (int i = 0; i < s9.size(); i++)
+    {
+        assert(s8[i] == s9[i]);
+    }
+
     std::cout << " --- OK" << std::endl;
 };
 
