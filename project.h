@@ -396,5 +396,31 @@ set<T, E> operator+(const set<T, E> &left_s, const set<T, E> &right_s)
     }
 
     return s;
-} // end of plus operator
+} // end of concatenation
+
+/**
+    * filtering set with predicate P
+    * @param left_s left set to be concatenated
+    * @aparam right_s right set to be concatenated
+*/
+template <typename T, typename E, typename P>
+set<T, E> filter_out(const set<T, E> s, P &pred)
+{
+    set<T, E> tmp(s);
+    typename set<T, E>::const_iterator it, ite;
+    it = s.begin();
+    ite = s.end();
+
+    while(it != ite)
+    {
+        if(!pred(static_cast<T>(*it)))
+        {
+            tmp.add(static_cast<T>(*it));
+        }
+        ++it;
+    }
+
+    return tmp;
+}// end of filter_out
+
 #endif

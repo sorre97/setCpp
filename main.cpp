@@ -259,7 +259,7 @@ void primitive_types_test(void)
 
     /** 11. iterator constructor **/
     std::cout << "iterator constructor ";
-    
+
     // iterators from s5 + s6
     set_int s9 = s5 + s6;
     it = s9.begin();
@@ -267,12 +267,31 @@ void primitive_types_test(void)
 
     // iterator constructor
     set_int s8(it, ite);
-    
+
     // asserting equal values
     for (int i = 0; i < s9.size(); i++)
     {
         assert(s8[i] == s9[i]);
     }
+
+    std::cout << " --- OK" << std::endl;
+
+    /** 12. filter_out **/
+    std::cout << "filter_out ";
+
+    // functor
+    struct is_odd
+    {
+        bool operator()(int a) const
+        {
+            return a % 2 == 0;
+        }
+    };
+
+    set_int s10;
+    s10 = filter_out(s8, is_odd);
+
+    std::cout << s10;
 
     std::cout << " --- OK" << std::endl;
 };
