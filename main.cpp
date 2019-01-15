@@ -5,6 +5,16 @@
 //custom includes
 #include "project.h"
 
+// functor
+struct is_odd
+{
+    // int functor
+    bool operator()(int a) const
+    {
+        return a % 2 == 0;
+    }
+};
+
 void primitive_types_test(void)
 {
     /**
@@ -24,11 +34,9 @@ void primitive_types_test(void)
 
     // test variables
     typedef set<int, std::equal_to<int> > set_int; ///< typedef to avoid template rewriting
-    bool exception = false;                       ///< try catch checker
-    //begin iterator
-    set_int::const_iterator it;
-    //end iterator
-    set_int::const_iterator ite;
+    bool exception = false;                        ///< try catch checker
+    set_int::const_iterator it;                    ///< begin iterator
+    set_int::const_iterator ite;                   ///< end iterator
 
     /** 1. default constructor + size **/
     std::cout << "default constructor + size ";
@@ -279,18 +287,10 @@ void primitive_types_test(void)
     /** 12. filter_out **/
     std::cout << "filter_out ";
 
-    // functor
-    struct is_odd
-    {
-        bool operator()(int a) const
-        {
-            return a % 2 == 0;
-        }
-    };
-
     set_int s10;
-    s10 = filter_out(s8, is_odd);
-
+    is_odd p;
+    s10 = filter_out(s8, p);
+    
     std::cout << s10;
 
     std::cout << " --- OK" << std::endl;

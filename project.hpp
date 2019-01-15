@@ -404,7 +404,7 @@ set<T, E> operator+(const set<T, E> &left_s, const set<T, E> &right_s)
     * @aparam right_s right set to be concatenated
 */
 template <typename T, typename E, typename P>
-set<T, E> filter_out(const set<T, E> s, P &pred)
+set<T, E> filter_out(const set<T, E> &s, P pred)
 {
     set<T, E> tmp(s);
     typename set<T, E>::const_iterator it, ite;
