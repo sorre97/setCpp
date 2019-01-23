@@ -145,6 +145,7 @@ class set
     {
         // creating new node containing value of type T
         node *n = new node(value);
+        
         // empty set case
         if (_head == NULL)
         {
