@@ -9,7 +9,7 @@
  * 4. const iterators +
  * 5. set constructor from iterators +
  * 6. toString operator +
- * 7. filtering function
+ * 7. filtering function +
  * 8. set concatenation +
  */
 
@@ -401,21 +401,21 @@ set<T, E> operator+(const set<T, E> &left_s, const set<T, E> &right_s)
 /**
     * filtering set with predicate P
     * @param left_s left set to be concatenated
-    * @aparam right_s right set to be concatenated
+    * @param right_s right set to be concatenated
 */
 template <typename T, typename E, typename P>
-set<T, E> filter_out(const set<T, E> &s, P pred)
+set<T, E> filter_out(const set<T, E> &s, P &pred)
 {
-    set<T, E> tmp(s);
+    set<T, E> tmp;
     typename set<T, E>::const_iterator it, ite;
     it = s.begin();
     ite = s.end();
 
     while(it != ite)
     {
-        if(!pred(static_cast<T>(*it)))
+        if(!pred(*it))
         {
-            tmp.add(static_cast<T>(*it));
+            tmp.add(*it);
         }
         ++it;
     }

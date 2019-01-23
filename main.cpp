@@ -3,7 +3,7 @@
 #include <cassert> // std::swap
 
 //custom includes
-#include "project.h"
+#include "project.hpp"
 
 // functor
 struct is_odd
@@ -13,9 +13,9 @@ struct is_odd
     {
         return a % 2 == 0;
     }
-};
+} is_odd;
 
-void primitive_types_test(void)
+void primitive_type_tests(void)
 {
     /**
      * TESTING with integers:
@@ -30,6 +30,7 @@ void primitive_types_test(void)
      *  9. toString
      * 10. concatenation
      * 11. iterator constructor
+     * 12. filter_out
      */
 
     // test variables
@@ -213,7 +214,6 @@ void primitive_types_test(void)
     {
         assert(*it == s5[i]);
 
-        std::cout << " " << *it;
         ++it;
         ++i;
     }
@@ -286,19 +286,28 @@ void primitive_types_test(void)
 
     /** 12. filter_out **/
     std::cout << "filter_out ";
-
     set_int s10;
-    is_odd p;
-    s10 = filter_out(s8, p);
-    
-    std::cout << s10;
+
+    s10 = filter_out(s8, is_odd);
+
+    // asserting equal values
+    for (int i = 0; i < s10.size(); i++)
+    {
+        assert(!is_odd(s10[i]));
+    }
 
     std::cout << " --- OK" << std::endl;
 };
 
+void custom_type_tests(void)
+{
+    /* TODO */
+}
+
 int main(int argc, char const *argv[])
 {
     std::cin.exceptions(std::ios_base::failbit | std::ios_base::badbit); // enables exeptions
-    primitive_types_test();
+    primitive_type_tests();
+    custom_type_tests();
     return 0;
 };
