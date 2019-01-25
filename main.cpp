@@ -324,7 +324,7 @@ void primitive_type_tests(void)
     std::cout << " --- OK" << std::endl;
 
     std::cout << "/**** End of primitive type tests ****/" << std::endl << std::endl;
-};
+}
 
 void custom_type_tests(void)
 {
@@ -624,4 +624,4 @@ int main(int argc, char const *argv[])
     primitive_type_tests();
     custom_type_tests();
     return 0;
-};
+}

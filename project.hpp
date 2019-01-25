@@ -11,6 +11,7 @@
  * 6. toString operator +
  * 7. filtering function +
  * 8. set concatenation +
+ * TODO -> custom exceptions
  */
 
 #include <ostream>
@@ -145,7 +146,7 @@ class set
     {
         // creating new node containing value of type T
         node *n = new node(value);
-        
+
         // empty set case
         if (_head == NULL)
         {

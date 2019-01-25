@@ -1,7 +1,7 @@
 
 #MODE = -DNDEBUG #per compilare in modalita' release
 
-MODE =  # per compilare in modalita' debug
+MODE = -Wall -pedantic
 
 main.out: main.o
 	g++ $(MODE) main.o -o main.out
