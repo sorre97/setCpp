@@ -127,7 +127,7 @@ class set
         // out of bound
         if (n >= _size)
         {
-            throw std::runtime_error("");
+            throw std::runtime_error("Out of bound");
         }
 
         // iterating until access position
@@ -168,7 +168,7 @@ class set
         if (_equal(tmp->value, value))
         {
             delete n;
-            throw std::runtime_error("");
+            throw std::runtime_error("Adding duplicate inside set");
         }
 
         // adding element at the end of the set
@@ -196,7 +196,7 @@ class set
         // element not found or empty list
         if (tmp == NULL)
         {
-            throw std::runtime_error("");
+            throw std::runtime_error("Element not found");
         }
 
         // element on head
