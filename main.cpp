@@ -1,10 +1,12 @@
 // generic c++ includes
 #include <iostream>
 #include <cassert> // std::swap
+#include <stdexcept> //std::runtime_error
 
 //custom includes
 #include "project.hpp"  //set
 #include <complex> // std::complex
+
 
 
 // functors

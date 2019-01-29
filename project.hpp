@@ -18,6 +18,7 @@
 #include <algorithm> //std::swap
 #include <iterator>  // std::forward_iterator_tag
 #include <cstddef>   // std::ptrdiff_t
+#include <stdexcept> //std::runtime_error
 
 template <typename T, typename Eql>
 class set

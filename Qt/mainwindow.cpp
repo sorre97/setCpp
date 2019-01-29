@@ -237,6 +237,9 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete maleChart;
+    delete femaleChart;
+
 }
 
 
