@@ -36,7 +36,7 @@ public:
     QTableWidget *uitable;
     QVBoxLayout *charts_container;
     QComboBox *uicities;
-    QVBoxLayout *charts;
+    QHBoxLayout *charts;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -75,6 +75,11 @@ public:
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
         uitable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         uitable->setObjectName(QString::fromUtf8("uitable"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(uitable->sizePolicy().hasHeightForWidth());
+        uitable->setSizePolicy(sizePolicy);
         uitable->setRowCount(0);
         uitable->setColumnCount(3);
 
@@ -91,7 +96,7 @@ public:
 
         charts_container->addWidget(uicities);
 
-        charts = new QVBoxLayout();
+        charts = new QHBoxLayout();
         charts->setSpacing(6);
         charts->setObjectName(QString::fromUtf8("charts"));
 

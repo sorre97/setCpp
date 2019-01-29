@@ -107,8 +107,12 @@ void MainWindow::updateTableContent(const QString &city, const QStringList &line
 
         QPieSlice * maleSlice  = new QPieSlice(age, males.toInt());
         maleSlice->setExploded(true);
+        maleSlice->setBorderColor(QColor(Qt::black));
+        maleSlice->setBorderWidth(0);
         QPieSlice * femaleSlice  = new QPieSlice(age, females.toInt());
         femaleSlice->setExploded(true);
+        femaleSlice->setBorderColor(QColor(Qt::black));
+        femaleSlice->setBorderWidth(0);
 
 
         maleSeries->append(maleSlice);
@@ -123,20 +127,32 @@ void MainWindow::updateTableContent(const QString &city, const QStringList &line
 
     maleChart->removeAllSeries();
     maleSeries->setHoleSize(0.35);
-    maleSeries->setPieSize(0.6);
+    maleSeries->setPieSize(0.85);
     maleSeries->setLabelsVisible();
-    maleSeries->setLabelsPosition(QPieSlice::LabelOutside);
-    for(auto slice : maleSeries->slices())
+    maleSeries->setLabelsPosition(QPieSlice::LabelInsideNormal);
+
+    int colorOffset = 0;
+    for(auto slice : maleSeries->slices()){
         slice->setLabel(QString("%1%").arg(100*slice->percentage(), 0, 'f', 1));
+        slice->setLabelColor(QColor(255, 255, 255, 255));
+        slice->setColor(QColor(66, 134 + colorOffset, 244, 150 + colorOffset));
+        colorOffset += 77 / maleSeries->slices().count();
+    }
     maleChart->addSeries(maleSeries);
 
     femaleChart->removeAllSeries();
     femaleSeries->setHoleSize(0.35);
-    femaleSeries->setPieSize(0.6);
+    femaleSeries->setPieSize(0.85);
     femaleSeries->setLabelsVisible();
-    femaleSeries->setLabelsPosition(QPieSlice::LabelOutside);
-    for(auto slice : femaleSeries->slices())
+    femaleSeries->setLabelsPosition(QPieSlice::LabelInsideNormal);
+
+    colorOffset = 0;
+    for(auto slice : femaleSeries->slices()){
         slice->setLabel(QString("%1%").arg(100*slice->percentage(), 0, 'f', 1));
+        slice->setLabelColor(QColor(255, 255, 255, 255));
+        slice->setColor(QColor(244, 66, 155 + colorOffset, 50 + colorOffset));
+        colorOffset += 86 / maleSeries->slices().count();
+    }
     femaleChart->addSeries(femaleSeries);
 
     ui->uitable->insertRow(row);
@@ -192,10 +208,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     maleChart->setBackgroundBrush(maleBackgroundGradient);
     femaleChart->setBackgroundBrush(femaleBackgroundGradient);
+
     QChartView * maleChartView = new QChartView(maleChart);
     QChartView * femaleChartView = new QChartView(femaleChart);
 
 
+    ui->uitable->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    ui->uitable->setMinimumSize(330, 690);
+    ui->uitable->setMaximumWidth(330);
+    maleChartView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
+    maleChartView->setMinimumWidth(350);
+    maleChartView->setMaximumWidth(370);
+    femaleChartView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
+    femaleChartView->setMinimumWidth(350);
+    femaleChartView->setMaximumWidth(370);
     ui->charts->addWidget(maleChartView);
     ui->charts->addWidget(femaleChartView);
 
@@ -204,10 +230,6 @@ MainWindow::MainWindow(QWidget *parent) :
     updateTableContent(currentCity, lines);
     ui->uicity->setText(ui->uicities->currentText());
 
-    //ui -> table_container -> addStretch();
-    //ui -> saveLoadBar-> addStretch();
-    //setFixedHeight(sizeHint().height());
-    //setFixedWidth(sizeHint().width());
 
 }
 

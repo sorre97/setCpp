@@ -34,6 +34,12 @@
         </item>
         <item>
          <widget class="QTableWidget" name="uitable">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -65,7 +71,7 @@
          <widget class="QComboBox" name="uicities"/>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="charts"/>
+         <layout class="QHBoxLayout" name="charts"/>
         </item>
        </layout>
       </item>
