@@ -29,13 +29,14 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QWidget *horizontalLayoutWidget;
+    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *table_container;
     QLabel *uicity;
     QTableWidget *uitable;
     QVBoxLayout *charts_container;
     QComboBox *uicities;
+    QVBoxLayout *charts;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -44,27 +45,27 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(671, 494);
+        MainWindow->resize(949, 604);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        horizontalLayoutWidget = new QWidget(centralWidget);
-        horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(19, 20, 631, 391));
-        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
+        centralWidget->setEnabled(true);
+        verticalLayout = new QVBoxLayout(centralWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
         table_container = new QVBoxLayout();
         table_container->setSpacing(6);
         table_container->setObjectName(QString::fromUtf8("table_container"));
-        uicity = new QLabel(horizontalLayoutWidget);
+        uicity = new QLabel(centralWidget);
         uicity->setObjectName(QString::fromUtf8("uicity"));
         uicity->setAlignment(Qt::AlignCenter);
 
         table_container->addWidget(uicity);
 
-        uitable = new QTableWidget(horizontalLayoutWidget);
+        uitable = new QTableWidget(centralWidget);
         if (uitable->columnCount() < 3)
             uitable->setColumnCount(3);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
@@ -74,11 +75,6 @@ public:
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
         uitable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         uitable->setObjectName(QString::fromUtf8("uitable"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(uitable->sizePolicy().hasHeightForWidth());
-        uitable->setSizePolicy(sizePolicy);
         uitable->setRowCount(0);
         uitable->setColumnCount(3);
 
@@ -90,18 +86,27 @@ public:
         charts_container = new QVBoxLayout();
         charts_container->setSpacing(6);
         charts_container->setObjectName(QString::fromUtf8("charts_container"));
-        uicities = new QComboBox(horizontalLayoutWidget);
+        uicities = new QComboBox(centralWidget);
         uicities->setObjectName(QString::fromUtf8("uicities"));
 
         charts_container->addWidget(uicities);
 
+        charts = new QVBoxLayout();
+        charts->setSpacing(6);
+        charts->setObjectName(QString::fromUtf8("charts"));
+
+        charts_container->addLayout(charts);
+
 
         horizontalLayout->addLayout(charts_container);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 671, 22));
+        menuBar->setGeometry(QRect(0, 0, 949, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));

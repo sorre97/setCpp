@@ -6,8 +6,8 @@
 #include <QTextStream>
 #include <iostream>
 #include <QVBoxLayout>
-#include <QtCharts>
-using namespace QtCharts;
+
+
 
 // returns each line of file inside a QStringList data structure
 QStringList read_file(void)
@@ -63,6 +63,7 @@ void MainWindow::updateTableContent(const QString &city, const QStringList &line
     int start = 0;
     int end = 0;
     int row = 0;
+
     ui->uitable->setRowCount(row);
 
     // scanning to find city
@@ -86,15 +87,32 @@ void MainWindow::updateTableContent(const QString &city, const QStringList &line
     }
     end = i;
 
-    std::cout << start << std::endl;
-    std::cout << end << std::endl;
-    std::cout << end - start << std::endl;
+
+    int totalMales = 0;
+    int totalFemales = 0;
+
+    QPieSeries * maleSeries = new QPieSeries();
+    QPieSeries * femaleSeries = new QPieSeries();
+
+
     for(int i = start; i < end; i++)
     {
         QString age = lines.at(i).split(" ")[1];
         QString males = lines.at(i).split(" ")[2];
         QString females = lines.at(i).split(" ")[3];
-        std::cout << "OK" << std::endl;
+
+
+        totalMales += males.toInt();
+        totalFemales += females.toInt();
+
+        QPieSlice * maleSlice  = new QPieSlice(age, males.toInt());
+        maleSlice->setExploded(true);
+        QPieSlice * femaleSlice  = new QPieSlice(age, females.toInt());
+        femaleSlice->setExploded(true);
+
+
+        maleSeries->append(maleSlice);
+        femaleSeries->append(femaleSlice);
 
         ui->uitable->insertRow(row);
         ui->uitable->setItem(row, 0, new QTableWidgetItem(age));
@@ -102,6 +120,29 @@ void MainWindow::updateTableContent(const QString &city, const QStringList &line
         ui->uitable->setItem(row, 2, new QTableWidgetItem(females));
         ++row;
     }
+
+    maleChart->removeAllSeries();
+    maleSeries->setHoleSize(0.35);
+    maleSeries->setPieSize(0.6);
+    maleSeries->setLabelsVisible();
+    maleSeries->setLabelsPosition(QPieSlice::LabelOutside);
+    for(auto slice : maleSeries->slices())
+        slice->setLabel(QString("%1%").arg(100*slice->percentage(), 0, 'f', 1));
+    maleChart->addSeries(maleSeries);
+
+    femaleChart->removeAllSeries();
+    femaleSeries->setHoleSize(0.35);
+    femaleSeries->setPieSize(0.6);
+    femaleSeries->setLabelsVisible();
+    femaleSeries->setLabelsPosition(QPieSlice::LabelOutside);
+    for(auto slice : femaleSeries->slices())
+        slice->setLabel(QString("%1%").arg(100*slice->percentage(), 0, 'f', 1));
+    femaleChart->addSeries(femaleSeries);
+
+    ui->uitable->insertRow(row);
+    ui->uitable->setItem(row, 0, new QTableWidgetItem(QString("Totale")));
+    ui->uitable->setItem(row, 1, new QTableWidgetItem(QString::number(totalMales)));
+    ui->uitable->setItem(row, 2, new QTableWidgetItem(QString::number(totalFemales)));
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -111,7 +152,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //pasring file data.txt
-    QStringList lines = read_file();
+    lines = read_file();
 
     // finding cities inside file
     QStringList cities = comboBoxHandler(lines);
@@ -119,28 +160,51 @@ MainWindow::MainWindow(QWidget *parent) :
     // adding cities to combobox
     ui->uicities->addItems(cities);
 
+    // charts
+    maleChart = new QChart();
+    maleChart->legend()->setAlignment(Qt::AlignRight);
+    maleChart->setTitleBrush(QBrush(Qt::black));
+    maleChart->setTitle("Maschi");
+    maleChart->setMargins(QMargins(3,3,3,3));
+
+
+    femaleChart = new QChart();
+    femaleChart->legend()->setAlignment(Qt::AlignRight);
+    femaleChart->setTitleBrush(QBrush(Qt::black));
+    femaleChart->setTitle("Femmine");
+    femaleChart->setMargins(QMargins(3,3,3,3));
+
+    QLinearGradient maleBackgroundGradient;
+    maleBackgroundGradient.setStart(QPointF(0, 0));
+    maleBackgroundGradient.setFinalStop(QPointF(1, 0));
+    maleBackgroundGradient.setColorAt(0.0, QRgb(0xa1c4fd));
+    maleBackgroundGradient.setColorAt(1.0, QRgb(0xc2e9fb));
+    maleBackgroundGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+    QLinearGradient femaleBackgroundGradient;
+    femaleBackgroundGradient.setStart(QPointF(0, 0));
+    femaleBackgroundGradient.setFinalStop(QPointF(1, 0));
+    femaleBackgroundGradient.setColorAt(0.0, QRgb(0xff867a));
+    femaleBackgroundGradient.setColorAt(0.21, QRgb(0xff8c7f));
+    femaleBackgroundGradient.setColorAt(0.52, QRgb(0xf99185));
+    femaleBackgroundGradient.setColorAt(0.78, QRgb(0xcf556c));
+    femaleBackgroundGradient.setColorAt(1.0, QRgb(0xb12a5b));
+    femaleBackgroundGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+
+    maleChart->setBackgroundBrush(maleBackgroundGradient);
+    femaleChart->setBackgroundBrush(femaleBackgroundGradient);
+    QChartView * maleChartView = new QChartView(maleChart);
+    QChartView * femaleChartView = new QChartView(femaleChart);
+
+
+    ui->charts->addWidget(maleChartView);
+    ui->charts->addWidget(femaleChartView);
+
     // constructing table at first time
     QString currentCity = ui->uicities->currentText();
     updateTableContent(currentCity, lines);
     ui->uicity->setText(ui->uicities->currentText());
 
-    QPieSeries * series = new QPieSeries();
-    QPieSlice * slice  = new QPieSlice(QString("Prova"), 20);
-    QPieSlice * slice2  = new QPieSlice(QString("Prova"), 80);
-    series->append(slice);
-    series->append(slice2);
-
-    QChart * chart = new QChart();
-    chart->addSeries(series);
-    QChartView *chartView = new QChartView(chart);
-
-    // Set layout in QWidget
-    ui->charts_container->addWidget(chartView);
-
-    // Set QWidget as the central layout of the main window
-    //setCentralWidget(window);
-
-    //ui -> navigationBar -> addStretch();
+    //ui -> table_container -> addStretch();
     //ui -> saveLoadBar-> addStretch();
     //setFixedHeight(sizeHint().height());
     //setFixedWidth(sizeHint().width());
@@ -156,7 +220,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_uicities_activated(const QString &city)
 {
-
-    updateTableContent(city, read_file());
+    updateTableContent(city, lines);
     ui->uicity->setText(ui->uicities->currentText());
 }

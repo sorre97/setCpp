@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtCharts>
+#include <QStringList>
+using namespace QtCharts;
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +24,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QStringList lines;
+    QChart * maleChart;
+    QChart * femaleChart;
     void updateTableContent(const QString &city, const QStringList &lines);
 };
 
