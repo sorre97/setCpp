@@ -21,7 +21,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    void updateTableContent(QString &city, QStringList &lines);
+    void updateTableContent(const QString &city, const QStringList &lines);
 };
 
 #endif // MAINWINDOW_H

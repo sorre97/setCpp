@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_CHARTS_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -I/Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtGui.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/Users/user/Qt/5.12.0/clang_64/mkspecs/macx-clang -F/Users/user/Qt/5.12.0/clang_64/lib
+INCPATH       = -I. -I/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtGui.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/Users/user/Qt/5.12.0/clang_64/mkspecs/macx-clang -F/Users/user/Qt/5.12.0/clang_64/lib
 QMAKE         = /Users/user/Qt/5.12.0/clang_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = Qt1.0.0
 DISTDIR = /Users/user/Desktop/<:>/GitHub/setCpp/Qt/.tmp/Qt1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.12 -Wl,-rpath,@executable_path/Frameworks -Wl,-rpath,/Users/user/Qt/5.12.0/clang_64/lib
-LIBS          = $(SUBLIBS) -F/Users/user/Qt/5.12.0/clang_64/lib -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL   
+LIBS          = $(SUBLIBS) -F/Users/user/Qt/5.12.0/clang_64/lib -framework QtCharts -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL   
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
 SED           = sed
@@ -429,6 +429,7 @@ Makefile: Qt.pro /Users/user/Qt/5.12.0/clang_64/mkspecs/macx-clang/qmake.conf /U
 		/Users/user/Qt/5.12.0/clang_64/mkspecs/features/yacc.prf \
 		/Users/user/Qt/5.12.0/clang_64/mkspecs/features/lex.prf \
 		Qt.pro \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/QtCharts.prl \
 		/Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/QtWidgets.prl \
 		/Users/user/Qt/5.12.0/clang_64/lib/QtGui.framework/QtGui.prl \
 		/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/QtCore.prl
@@ -609,6 +610,7 @@ Makefile: Qt.pro /Users/user/Qt/5.12.0/clang_64/mkspecs/macx-clang/qmake.conf /U
 /Users/user/Qt/5.12.0/clang_64/mkspecs/features/yacc.prf:
 /Users/user/Qt/5.12.0/clang_64/mkspecs/features/lex.prf:
 Qt.pro:
+/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/QtCharts.prl:
 /Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/QtWidgets.prl:
 /Users/user/Qt/5.12.0/clang_64/lib/QtGui.framework/QtGui.prl:
 /Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/QtCore.prl:
@@ -684,7 +686,7 @@ moc_mainwindow.cpp: /Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/Heade
 		mainwindow.h \
 		moc_predefs.h \
 		/Users/user/Qt/5.12.0/clang_64/bin/moc
-	/Users/user/Qt/5.12.0/clang_64/bin/moc $(DEFINES) --include '/Users/user/Desktop/<:>/GitHub/setCpp/Qt/moc_predefs.h' -I/Users/user/Qt/5.12.0/clang_64/mkspecs/macx-clang -I'/Users/user/Desktop/<:>/GitHub/setCpp/Qt' -I/Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtGui.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/user/Qt/5.12.0/clang_64/lib mainwindow.h -o moc_mainwindow.cpp
+	/Users/user/Qt/5.12.0/clang_64/bin/moc $(DEFINES) --include '/Users/user/Desktop/<:>/GitHub/setCpp/Qt/moc_predefs.h' -I/Users/user/Qt/5.12.0/clang_64/mkspecs/macx-clang -I'/Users/user/Desktop/<:>/GitHub/setCpp/Qt' -I/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtGui.framework/Headers -I/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/user/Qt/5.12.0/clang_64/lib mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -727,7 +729,65 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers/QFile \
 		/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers/qfile.h \
 		/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers/QTextStream \
-		/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers/qtextstream.h
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/Headers/QVBoxLayout \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtWidgets.framework/Headers/qboxlayout.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/QtCharts \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qchartglobal.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/chartsnamespace.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qabstractaxis.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qabstractbarseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qabstractseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qarealegendmarker.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qareaseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qbarcategoryaxis.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qbarlegendmarker.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qbarmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qbarseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qbarset.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qboxplotlegendmarker.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qboxplotmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qboxplotseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qboxset.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qcandlesticklegendmarker.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qcandlestickmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qcandlestickseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qcandlestickset.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qcategoryaxis.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qchart.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qchartview.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qdatetimeaxis.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhbarmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhboxplotmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhcandlestickmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhorizontalbarseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhorizontalpercentbarseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhorizontalstackedbarseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhpiemodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qhxymodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qlegend.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qlegendmarker.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qlineseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qlogvalueaxis.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qpercentbarseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qpielegendmarker.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qpiemodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qpieseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qpieslice.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qpolarchart.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qscatterseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qsplineseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qstackedbarseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qvalueaxis.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qvbarmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qvboxplotmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qvcandlestickmodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qvpiemodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qvxymodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qxylegendmarker.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qxymodelmapper.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qxyseries.h \
+		/Users/user/Qt/5.12.0/clang_64/lib/QtCharts.framework/Headers/qtchartsversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 

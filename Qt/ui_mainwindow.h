@@ -74,7 +74,7 @@ public:
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
         uitable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         uitable->setObjectName(QString::fromUtf8("uitable"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(uitable->sizePolicy().hasHeightForWidth());

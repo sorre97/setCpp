@@ -5,6 +5,9 @@
 #include <QFile>
 #include <QTextStream>
 #include <iostream>
+#include <QVBoxLayout>
+#include <QtCharts>
+using namespace QtCharts;
 
 // returns each line of file inside a QStringList data structure
 QStringList read_file(void)
@@ -37,7 +40,7 @@ QStringList read_file(void)
 }
 
 // returns list of cities inside the file
-QStringList comboBoxHandler(QStringList &list)
+QStringList comboBoxHandler(const QStringList &list)
 {
     QStringList cities;
 
@@ -53,26 +56,51 @@ QStringList comboBoxHandler(QStringList &list)
 }
 
 // updates table with content of current city
-void MainWindow::updateTableContent(QString &city, QStringList &lines)
+void MainWindow::updateTableContent(const QString &city, const QStringList &lines)
 {
     int i = 0;
     QString prefix;
+    int start = 0;
+    int end = 0;
+    int row = 0;
+    ui->uitable->setRowCount(row);
 
     // scanning to find city
     while(i < lines.length())
     {
         // extracting city from current line
         prefix = lines.at(i).split(" ")[0];
-        if(QString::compare(prefix, city)) { std:: cout << city.toStdString() << " = "; break; }
+        if(prefix == city) { break; }
         ++i;
     }
+    start = i;
 
     // i is index of first occurrence
     // updating table until end of city occurrence
-    while(i < lines.length() && !QString::compare(prefix, city))
+    while(i < lines.length())
     {
-        ui->uitable->insertRow(1);
+        prefix = lines.at(i).split(" ")[0];
+        if(prefix != city) { break; }
+
         ++i;
+    }
+    end = i;
+
+    std::cout << start << std::endl;
+    std::cout << end << std::endl;
+    std::cout << end - start << std::endl;
+    for(int i = start; i < end; i++)
+    {
+        QString age = lines.at(i).split(" ")[1];
+        QString males = lines.at(i).split(" ")[2];
+        QString females = lines.at(i).split(" ")[3];
+        std::cout << "OK" << std::endl;
+
+        ui->uitable->insertRow(row);
+        ui->uitable->setItem(row, 0, new QTableWidgetItem(age));
+        ui->uitable->setItem(row, 1, new QTableWidgetItem(males));
+        ui->uitable->setItem(row, 2, new QTableWidgetItem(females));
+        ++row;
     }
 }
 
@@ -94,6 +122,23 @@ MainWindow::MainWindow(QWidget *parent) :
     // constructing table at first time
     QString currentCity = ui->uicities->currentText();
     updateTableContent(currentCity, lines);
+    ui->uicity->setText(ui->uicities->currentText());
+
+    QPieSeries * series = new QPieSeries();
+    QPieSlice * slice  = new QPieSlice(QString("Prova"), 20);
+    QPieSlice * slice2  = new QPieSlice(QString("Prova"), 80);
+    series->append(slice);
+    series->append(slice2);
+
+    QChart * chart = new QChart();
+    chart->addSeries(series);
+    QChartView *chartView = new QChartView(chart);
+
+    // Set layout in QWidget
+    ui->charts_container->addWidget(chartView);
+
+    // Set QWidget as the central layout of the main window
+    //setCentralWidget(window);
 
     //ui -> navigationBar -> addStretch();
     //ui -> saveLoadBar-> addStretch();
@@ -109,7 +154,9 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_uicities_activated(const QString &arg)
+void MainWindow::on_uicities_activated(const QString &city)
 {
-    std::cout << arg.toStdString() << std::endl;
+
+    updateTableContent(city, read_file());
+    ui->uicity->setText(ui->uicities->currentText());
 }
