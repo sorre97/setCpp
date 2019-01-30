@@ -265,12 +265,12 @@ void primitive_type_tests(void)
     // s6 = [20 -> 4 -> 10 -> 9]
     set_int s7 = s5 + s6;
     // asserting s5 copied inside s7
-    for (int i = 0; i < s5.size(); i++)
+    for (unsigned int i = 0; i < s5.size(); i++)
     {
         assert(s7[i] == s5[i]);
     }
     // asserting 26 copied inside s7
-    for (int i = s5.size(); i < s6.size(); i++)
+    for (unsigned int i = s5.size(); i < s6.size(); i++)
     {
         assert(s7[i] == s6[i]);
     }
@@ -304,7 +304,7 @@ void primitive_type_tests(void)
     set_int s8(it, ite);
 
     // asserting equal values
-    for (int i = 0; i < s9.size(); i++)
+    for (unsigned int i = 0; i < s9.size(); i++)
     {
         assert(s8[i] == s9[i]);
     }
@@ -318,7 +318,7 @@ void primitive_type_tests(void)
     s10 = filter_out(s8, is_odd_int);
 
     // asserting equal values
-    for (int i = 0; i < s10.size(); i++)
+    for (unsigned int i = 0; i < s10.size(); i++)
     {
         assert(!is_odd_int(s10[i]));
     }
@@ -557,12 +557,12 @@ void custom_type_tests(void)
     // s6 = [(20,30) -> (4,7) -> (10,30) -> (9,2)]
     set_complex_double s7 = s5 + s6;
     // asserting s5 copied inside s7
-    for (int i = 0; i < s5.size(); i++)
+    for (unsigned int i = 0; i < s5.size(); i++)
     {
         assert(s7[i] == s5[i]);
     }
     // asserting 26 copied inside s7
-    for (int i = s5.size(); i < s6.size(); i++)
+    for (unsigned int i = s5.size(); i < s6.size(); i++)
     {
         assert(s7[i] == s6[i]);
     }
@@ -596,7 +596,7 @@ void custom_type_tests(void)
     set_complex_double s8(it, ite);
 
     // asserting equal values
-    for (int i = 0; i < s9.size(); i++)
+    for (unsigned int i = 0; i < s9.size(); i++)
     {
         assert(s8[i] == s9[i]);
     }
@@ -610,7 +610,7 @@ void custom_type_tests(void)
     s10 = filter_out(s8, is_major_complex_double);
 
     // asserting equal values
-    for (int i = 0; i < s10.size(); i++)
+    for (unsigned int i = 0; i < s10.size(); i++)
     {
         assert(!is_major_complex_double(s10[i]));
     }
