@@ -1,18 +1,6 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
-/**
- * Functional requisites:
- * 1. random access operator +
- * 2. add to add new values to the set +
- * 3. remove to remove values from the set +
- * 4. const iterators +
- * 5. set constructor from iterators +
- * 6. toString operator +
- * 7. filtering function +
- * 8. set concatenation +
- */
-
 #include <ostream>
 #include <algorithm> //std::swap
 #include <iterator>  // std::forward_iterator_tag

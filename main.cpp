@@ -8,7 +8,6 @@
 #include <complex> // std::complex
 
 
-
 // functors
 struct is_odd_int
 {
