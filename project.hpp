@@ -11,7 +11,6 @@
  * 6. toString operator +
  * 7. filtering function +
  * 8. set concatenation +
- * TODO -> custom exceptions
  */
 
 #include <ostream>
@@ -120,9 +119,8 @@ class set
     * Random access operator
     * @param n position of element to access
     */
-    const T &operator[](int n) const
+    const T &operator[](unsigned int n) const
     {
-
         node *tmp = _head;
 
         // out of bound
@@ -132,7 +130,7 @@ class set
         }
 
         // iterating until access position
-        for (int i = 0; i < n; i++)
+        for (unsigned int i = 0; i < n; i++)
         {
             tmp = tmp->next;
         }

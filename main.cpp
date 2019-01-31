@@ -399,6 +399,17 @@ void custom_type_tests(void)
         exception = true;
     }
     assert(exception == true);
+    
+    exception = false;
+    try
+    {
+        s[-1];
+    }
+    catch (std::runtime_error e)
+    {
+        exception = true;
+    }
+    assert(exception == true);
     std::cout << " --- OK" << std::endl;
 
     /** 4. copy constructor **/
