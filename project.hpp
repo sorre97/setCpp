@@ -170,8 +170,8 @@ class set
     */
     void remove(const T &value)
     {
-        node *tmp = _head;  ///< head pointer
-        node *prev = _head; ///< previous pointer
+        node *tmp = _head;  // head pointer
+        node *prev = _head; // previous pointer
 
         // searchign iteratevely for element
         while (tmp != NULL && !_equal(tmp->value, value))
