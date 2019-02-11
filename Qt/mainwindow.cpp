@@ -222,6 +222,7 @@ MainWindow::MainWindow(QWidget *parent) :
     femaleChartView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
     femaleChartView->setMinimumWidth(350);
     femaleChartView->setMaximumWidth(370);
+
     ui->charts->addWidget(maleChartView);
     ui->charts->addWidget(femaleChartView);
 
@@ -237,8 +238,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete maleChart;
-    delete femaleChart;
 
 }
 

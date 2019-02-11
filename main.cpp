@@ -130,7 +130,7 @@ void primitive_type_tests(void)
     std::cout << "clear";
     s2.clear();
     assert(s2.size() == 0);
-    // no more values inside
+    // no more values insides
     exception = false;
     try
     {
